@@ -1,5 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Welcome</h1>
+    <h1>{{ title }}</h1>
+    <br>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Name</th>
+            <th>Created</th>
+            <th>Tags</th>
+            <th></th>
+        </tr>
+    {% for document in documents %}
+        <tr>
+            <td>{{ document.name }}</td>
+            <td>{{ document.dateCreated|date('d.m.Y H:i') }}</td>
+            <td>
+            {% for tag in document.tags %}
+                {{ tags.show(tag) }}
+            {% endfor %}
+            </td>
+            <td class="text-right">
+                <a class="btn btn-default btn-xs" href="{{ path('document_details', {'id': document.id }) }}">
+                    Details
+                </a>
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
 {% endblock %}

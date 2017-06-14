@@ -17,7 +17,7 @@ class TryApiCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        echo ($this->getContainer()->get('app.ocr')
+        echo ($this->getContainer()->get('ocr')
             ->extractText("http://data0.kif.fr/oz-trip/perso/payement_lang.jpg"));
     }
 }

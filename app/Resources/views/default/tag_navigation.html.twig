@@ -1,0 +1,17 @@
+<ul class="nav nav-pills nav-stacked">
+    <li>
+        <a href="{{ path('homepage') }}">Inbox</a>
+    </li>
+    <li>
+        <a href="{{ path('homepage') }}">Done</a>
+    </li>
+    <li>
+        <hr>
+        <p class="text-muted">Tags</p>
+    </li>
+    {% for tag in tags %}
+    <li>
+        <a href="{{ path('filtered_homepage', {id: tag.id}) }}">{{ tag.name }}</a>
+    </li>
+    {% endfor %}
+</ul>

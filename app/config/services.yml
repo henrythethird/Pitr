@@ -1,10 +1,15 @@
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
-    app.document_matcher:
+    document_matcher:
         class: AppBundle\Service\DocumentMatcherService
-        arguments: [~, ~]
+        arguments: ["@doctrine.orm.entity_manager", "@rule_apply"]
 
-    app.ocr:
+    rule_apply:
+        class: AppBundle\Service\RuleApplyService
+
+    ocr:
         class: AppBundle\Service\OcrService
+
+    repository.document:
+        class: AppBundle\Repository\DocumentRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments: ["AppBundle\\Entity\\Document"]

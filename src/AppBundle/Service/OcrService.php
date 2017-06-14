@@ -27,7 +27,7 @@ class OcrService
     {
         $vision = new VisionClient([
             'projectId' => 'pitr-157214',
-            'keyFilePath' => '/tmp/Pitr.json'
+            'keyFilePath' => '/Users/patrickkaufmann/Projects/private/Pitr/app/Resources/api/key.json'
         ]);
 
         $image = $vision->image(file_get_contents($imagePath), ['TEXT_DETECTION']);
