@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Tag;
 use AppBundle\Form\SearchType;
+use AppBundle\Value\SearchValue;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -16,11 +17,12 @@ class DefaultController extends Controller
      * @Route("/", name="homepage")
      * @Route("/filtered/{id}", name="filtered_homepage")
      * @Template("default/index.html.twig")
+     * @Method("GET")
      */
-    public function indexAction(Tag $tag = null)
+    public function indexAction(Request $request, Tag $tag = null)
     {
         $documents = $this->get('repository.document')
-            ->findByTag($tag);
+            ->matchDocuments($request->query->get('search')['term'], $tag);
 
         return [
             'documents' => $documents,
@@ -34,7 +36,9 @@ class DefaultController extends Controller
      */
     public function searchAction(Request $request)
     {
-        $form = $this->createForm(SearchType::class);
+        $form = $this->createForm(SearchType::class, null, [
+            'method' => 'GET'
+        ]);
         $form->handleRequest($request);
 
         return [

@@ -2,6 +2,26 @@
 
 {% block body %}
     <h1>Document "{{ document.name }}"</h1>
-
-    <pre>{{ document.content }}</pre>
+    <br>
+    <div class="row">
+        <div class="col-xs-8">
+            <pre>{{ document.content }}</pre>
+        </div>
+        <div class="col-xs-4">
+            <table class="table table-striped">
+                <tr>
+                    <th>Created</th>
+                    <td class="text-right">{{ document.dateCreated|date('d.m.Y H:i') }}</td>
+                </tr>
+                <tr>
+                    <th>Tags</th>
+                    <td class="text-right">
+                        {% for tag in document.tags %}
+                            {{ tags.show(tag) }}
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 {% endblock body %}

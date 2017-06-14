@@ -1,3 +1,7 @@
 {% macro show(tag) %}
-    <span class="label label-default">{{ tag.name }}</span>
+    <a href="{{ path('filtered_homepage', {id: tag.id}) }}" class="">
+        <span class="label label-default">
+            {{ tag.name }}
+        </span>
+    </a>
 {% endmacro %}

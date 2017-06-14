@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="AppBundle\Repository\DocumentRepository")
- * @ORM\Table
+ * @ORM\Table(name="document", indexes={@ORM\Index(columns={"content"},flags={"fulltext"})})
  */
 class Document
 {
