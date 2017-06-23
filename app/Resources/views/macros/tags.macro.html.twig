@@ -1,7 +1,5 @@
 {% macro show(tag) %}
-    <a href="{{ path('filtered_homepage', {id: tag.id}) }}" class="">
-        <span class="label label-default">
-            {{ tag.name }}
-        </span>
-    </a>
+    <span class="label label-default pointer" onclick="fetchCenter(false, {{ tag.id }})">
+        {{ tag.name }}
+    </span>
 {% endmacro %}

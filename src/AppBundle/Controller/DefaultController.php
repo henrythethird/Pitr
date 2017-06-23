@@ -15,14 +15,27 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
-     * @Route("/filtered/{id}", name="filtered_homepage")
      * @Template("default/index.html.twig")
-     * @Method("GET")
      */
-    public function indexAction(Request $request, Tag $tag = null)
+    public function indexAction()
     {
-        $documents = $this->get('repository.document')
-            ->matchDocuments($request->query->get('search')['term'], $tag);
+        return [];
+    }
+
+    /**
+     * @Route("/filtered", name="filtered_homepage")
+     * @Template("default/content.html.twig")
+     */
+    public function filteredAction(Request $request)
+    {
+        $tagId = $request->query->get('tag_id');
+        $searchTerm = $request->query->get('search_term');
+
+        $tag = $tagId ? $this->get('repository.tag')->find($tagId) : null;
+
+        $documents = $this
+            ->get('repository.document')
+            ->matchDocuments($searchTerm, $tag);
 
         return [
             'documents' => $documents,

@@ -9,7 +9,23 @@ services:
     ocr:
         class: AppBundle\Service\OcrService
 
+    document_creator:
+        class: AppBundle\Service\DocumentCreatorService
+        arguments: ["@ocr"]
+
+    upload_listener:
+        class: AppBundle\Listener\UploadListener
+        arguments: ["@document_creator","@doctrine.orm.entity_manager"]
+        tags:
+            - { name: kernel.event_listener, event: oneup_uploader.post_persist, method: onUpload }
+            - { name: kernel.event_listener, event: oneup_uploader.pre_upload, method: preUpload }
+
     repository.document:
         class: AppBundle\Repository\DocumentRepository
         factory: ["@doctrine.orm.entity_manager", getRepository]
         arguments: ["AppBundle\\Entity\\Document"]
+
+    repository.tag:
+        class: AppBundle\Repository\TagRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments: ["AppBundle\\Entity\\Tag"]

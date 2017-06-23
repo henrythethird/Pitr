@@ -1,0 +1,6 @@
+oneup_uploader:
+    mappings:
+        documents:
+            enable_cancelation: true
+            enable_progress: true
+            frontend: dropzone

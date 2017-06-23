@@ -11,7 +11,7 @@
     </li>
     {% for tag in tags %}
     <li>
-        <a href="{{ path('filtered_homepage', {id: tag.id}) }}">{{ tag.name }}</a>
+        <a class="pointer" onclick="fetchCenter(false, {{ tag.id }})">{{ tag.name }}</a>
     </li>
     {% endfor %}
 </ul>

@@ -14,6 +14,16 @@
                     <td class="text-right">{{ document.dateCreated|date('d.m.Y H:i') }}</td>
                 </tr>
                 <tr>
+                    <th>Mime Type</th>
+                    <td class="text-right">{{ document.mimeType }}</td>
+                </tr>
+                <tr>
+                    <th>Path</th>
+                    <td class="text-right">
+                        <a href="{{ document.path }}">View</a>
+                    </td>
+                </tr>
+                <tr>
                     <th>Tags</th>
                     <td class="text-right">
                         {% for tag in document.tags %}

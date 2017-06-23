@@ -34,6 +34,16 @@ class Document
     private $dateCreated;
 
     /**
+     * @ORM\Column(type="string")
+     */
+    private $path;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $mimeType;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag")
      */
     private $tags;
@@ -41,6 +51,7 @@ class Document
     public function __construct()
     {
         $this->tags = new ArrayCollection();
+        $this->dateCreated = new \DateTime();
     }
 
     /**
@@ -97,6 +108,42 @@ class Document
     public function setDateCreated($dateCreated)
     {
         $this->dateCreated = $dateCreated;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    /**
+     * @param string $path
+     * @return Document
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
+    }
+
+    /**
+     * @param string $mimeType
+     * @return Document
+     */
+    public function setMimeType($mimeType)
+    {
+        $this->mimeType = $mimeType;
+        return $this;
     }
 
     /**
