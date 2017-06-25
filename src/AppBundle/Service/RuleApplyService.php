@@ -49,11 +49,19 @@ class RuleApplyService
 
     private function matchNormal(ExpressionEmbeddable $expression, $content)
     {
+        if (!$expression->getPattern()) {
+            return false;
+        }
+
         return mb_strpos($content, $expression->getPattern()) !== false;
     }
 
     private function matchRegex(ExpressionEmbeddable $expression, $content)
     {
+        if (!$expression->getPattern()) {
+            return false;
+        }
+
         return preg_match($expression->getPattern(), $content);
     }
 }

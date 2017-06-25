@@ -11,7 +11,7 @@ services:
 
     document_creator:
         class: AppBundle\Service\DocumentCreatorService
-        arguments: ["@ocr"]
+        arguments: ["@ocr", "@document_matcher"]
 
     upload_listener:
         class: AppBundle\Listener\UploadListener
