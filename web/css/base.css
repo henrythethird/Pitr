@@ -1,3 +1,11 @@
 .pointer {
     cursor: pointer;
 }
+
+.document_state_unpin {
+    color: #2e6da4;
+}
+
+.document_done_reset {
+    color: #4cae4c;
+}

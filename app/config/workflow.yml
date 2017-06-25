@@ -1,0 +1,31 @@
+framework:
+    workflows:
+        document:
+            type: 'state_machine'
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'state'
+            supports:
+                - AppBundle\Entity\Document
+            places:
+                - pending
+                - pinned
+                - done
+            transitions:
+                pin:
+                    from:
+                        - pending
+                        - done
+                    to: pinned
+                unpin:
+                    from: pinned
+                    to: pending
+                finish:
+                    from:
+                        - pending
+                        - pinned
+                    to: done
+                reset:
+                    from: done
+                    to: pending

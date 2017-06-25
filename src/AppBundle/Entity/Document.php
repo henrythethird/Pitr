@@ -48,6 +48,16 @@ class Document
      */
     private $tags;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $wasRead = false;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $state = 'pending';
+
     public function __construct()
     {
         $this->tags = new ArrayCollection();
@@ -170,5 +180,27 @@ class Document
     public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
+    }
+
+    public function getWasRead()
+    {
+        return $this->wasRead;
+    }
+
+    public function setWasRead($read)
+    {
+        $this->wasRead = $read;
+        return $this;
+    }
+
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    public function setState($state)
+    {
+        $this->state = $state;
+        return $this;
     }
 }

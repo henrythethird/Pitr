@@ -8,7 +8,7 @@
             <pre>{{ document.content }}</pre>
         </div>
         <div class="col-xs-4">
-            <table class="table table-striped">
+            <table class="table table-striped table-bordered">
                 <tr>
                     <th>Created</th>
                     <td class="text-right">{{ document.dateCreated|date('d.m.Y H:i') }}</td>
@@ -29,6 +29,12 @@
                         {% for tag in document.tags %}
                             {{ tags.show(tag) }}
                         {% endfor %}
+                    </td>
+                </tr>
+                <tr>
+                    <th>Actions</th>
+                    <td class="text-right">
+                        {{ state.show(document) }}
                     </td>
                 </tr>
             </table>

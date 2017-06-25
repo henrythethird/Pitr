@@ -1,5 +1,5 @@
 {% macro show(tag) %}
-    <span class="label label-default pointer" onclick="fetchCenter(false, {{ tag.id }})">
+    <span class="label label-default pointer" onclick="event.stopPropagation(); fetchCenter(false, {{ tag.id }});">
         {{ tag.name }}
     </span>
 {% endmacro %}
