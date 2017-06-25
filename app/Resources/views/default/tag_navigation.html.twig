@@ -1,17 +1,25 @@
+{% set folder = folder|default('inbox') %}
+{% set actions = {
+    inbox: 'Inbox',
+    pinned: 'Pinned',
+    done: 'Done'
+} %}
 <ul class="nav nav-pills nav-stacked">
-    <li>
-        <a href="{{ path('homepage') }}">Inbox</a>
-    </li>
-    <li>
-        <a href="{{ path('homepage') }}">Done</a>
-    </li>
+    {% for key, action in actions %}
+        <li {% if folder == key %}class="active"{% endif %}>
+            <a href="{{ path('folder', {folder: key}) }}">{{ action }}</a>
+        </li>
+    {% endfor %}
     <li>
         <hr>
         <p class="text-muted">Tags</p>
     </li>
-    {% for tag in tags %}
-    <li>
-        <a class="pointer" onclick="fetchCenter(false, {{ tag.id }})">{{ tag.name }}</a>
+
+    {% for currentTag in tags %}
+    <li {% if tag and tag.id == currentTag.id %}class="active"{% endif %}>
+        <a href="{{ path('tag', {tag: currentTag.id}) }}">
+            {{ currentTag.name }}
+        </a>
     </li>
     {% endfor %}
 </ul>

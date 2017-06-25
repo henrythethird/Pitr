@@ -27,6 +27,12 @@ class DocumentController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
+        $document->setWasRead(true);
+
+        $this->getDoctrine()
+            ->getManager()
+            ->flush();
+
         return [
             'document' => $document
         ];

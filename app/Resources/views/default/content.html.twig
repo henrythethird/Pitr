@@ -2,30 +2,27 @@
 {% import "macros/state.macro.html.twig" as state %}
 
 {% block body %}
-    <button class="btn btn-default pull-right" data-toggle="modal" data-target="#addDocumentModal">
-        <i class="glyphicon glyphicon-plus"></i> Add Document
+    <button id="addDocumentModalButton" class="btn btn-primary" data-toggle="modal" data-target="#addDocumentModal">
+        <i class="glyphicon glyphicon-plus"></i>
     </button>
     <h1 class="text-center">{{ title }}</h1>
 
     <br>
     {% if documents|length %}
-        <table class="table table-striped table-hover">
-            <tr>
-                <th>Name</th>
-                <th>Created</th>
-                <th class="text-right">Tags</th>
-            </tr>
+        <table id="mainTable" class="table table-striped table-hover">
             {% for document in documents %}
-                <tr class="pointer" onclick="document.location.href='{{ path('document_details', {'id': document.id }) }}'">
+                <tr class="{% if not document.wasRead %}unread{% endif %} pointer" onclick="document.location.href='{{ path('document_details', {'id': document.id }) }}'">
                     <td>
-                        {{ document.name }}
-                        {{ state.show(document) }}
+                        <input onclick="event.stopPropagation()" class="bulkCheckbox" type="checkbox"> {{ document.name }}
                     </td>
                     <td>{{ document.dateCreated|date('d.m.Y H:i') }}</td>
-                    <td class="text-right">
+                    <td class="text-left">
                         {% for tag in document.tags %}
                             {{ tags.show(tag) }}
                         {% endfor %}
+                    </td>
+                    <td>
+                        {{ state.show(document) }}
                     </td>
                 </tr>
             {% endfor %}

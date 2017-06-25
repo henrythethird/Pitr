@@ -34,7 +34,10 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-2">
-                    {{ render(controller("AppBundle:Default:navigation")) }}
+                    {{ render(controller("AppBundle:Default:navigation", {
+                        folder: folder|default('tags'),
+                        tag: tag|default(null)
+                    })) }}
                 </div>
                 <div class="col-xs-10" id="js-center-region">
                     {% for alertType in alertTypes %}
@@ -80,41 +83,34 @@
                     }
                 };
             </script>
-            <script type="text/javascript">
-                var global_tag_id = null;
-                var currentRequest = null;
-                var currentTimeout = null;
+            {% if requestURL is defined %}
+                <script type="text/javascript">
+                    var currentRequest = null;
+                    var currentTimeout = null;
+                    var url = "{{ requestURL }}";
 
-                function fetchCenter(skipWait, tag_id) {
-                    var center = $('#js-center-region');
-                    var search_bar = $('#search_term');
+                    function fetchCenter(skipWait) {
+                        var center = $('#js-center-region');
+                        var search_bar = $('#search_term');
 
-                    //center.html('');
+                        if (currentRequest) {
+                            currentRequest.abort();
+                        }
 
-                    if (!tag_id) {
-                        tag_id = global_tag_id;
-                    } else {
-                        global_tag_id = tag_id;
+                        if (currentTimeout) {
+                            clearTimeout(currentTimeout);
+                        }
+
+                        currentTimeout = setTimeout(function() {
+                            currentRequest = $.get(url, {
+                                'search_term': search_bar.val()
+                            }, function(data) {
+                                center.html(data);
+                            });
+                        }, !skipWait ? 500 : 0);
                     }
-
-                    if (currentRequest) {
-                        currentRequest.abort();
-                    }
-
-                    if (currentTimeout) {
-                        clearTimeout(currentTimeout);
-                    }
-
-                    currentTimeout = setTimeout(function() {
-                        currentRequest = $.get('{{ path('filtered_homepage') }}', {
-                            'tag_id': tag_id,
-                            'search_term': search_bar.val()
-                        }, function(data) {
-                            center.html(data);
-                        });
-                    }, !skipWait ? 500 : 0);
-                }
-            </script>
+                </script>
+            {% endif %}
         {% endblock %}
     </body>
 </html>

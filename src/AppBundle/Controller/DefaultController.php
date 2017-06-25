@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Tag;
 use AppBundle\Form\SearchType;
+use AppBundle\Value\Folder;
 use AppBundle\Value\SearchValue;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,31 +16,67 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/", name="homepage")
+     * @Route("/folder/{folder}", name="folder")
      * @Template("default/index.html.twig")
      */
-    public function indexAction()
+    public function folderAction($folder = Folder::INBOX)
     {
-        return [];
+        return [
+            'folder' => $folder,
+            'requestURL' => $this->generateUrl('filtered_folder', [
+                'folder' => $folder
+            ])
+        ];
     }
 
     /**
-     * @Route("/filtered", name="filtered_homepage")
+     * @Route("/tag/{tag}", name="tag")
+     * @Template("default/index_tag.html.twig")
+     */
+    public function tagAction(Tag $tag)
+    {
+        return [
+            'tag' => $tag->getId(),
+            'folder' => Folder::TAGS,
+            'requestURL' => $this->generateUrl('filtered_tag', [
+                'tag' => $tag->getId()
+            ])
+        ];
+    }
+
+    /**
+     * @Route("/filtered/{tag}", name="filtered_tag")
      * @Template("default/content.html.twig")
      */
-    public function filteredAction(Request $request)
+    public function filteredTagAction(Request $request, Tag $tag = null)
     {
-        $tagId = $request->query->get('tag_id');
         $searchTerm = $request->query->get('search_term');
-
-        $tag = $tagId ? $this->get('repository.tag')->find($tagId) : null;
 
         $documents = $this
             ->get('repository.document')
-            ->matchDocuments($searchTerm, $tag);
+            ->matchWithTag($searchTerm, $tag);
 
         return [
             'documents' => $documents,
-            'title' => $tag ? sprintf("Tag: %s", $tag->getName()) : "Documents"
+            'title' => $tag ? sprintf("Tag: %s", $tag->getName()) : "Documents",
+        ];
+    }
+
+    /**
+     * @Route("/filtered/{folder}", name="filtered_folder")
+     * @Template("default/content.html.twig")
+     */
+    public function filteredFolderAction(Request $request, $folder)
+    {
+        $searchTerm = $request->query->get('search_term');
+
+        $documents = $this
+            ->get('repository.document')
+            ->matchWithFolder($searchTerm, $folder);
+
+        return [
+            'documents' => $documents,
+            'title' => "Documents",
         ];
     }
 
@@ -60,18 +97,26 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/navigation", name="navigation")
+     * @Route("/navigation/{folder}/{tag}", name="navigation")
      * @Template("default/tag_navigation.html.twig")
      * @Method()
      */
-    public function navigationAction()
+    public function navigationAction($folder, Tag $tag = null)
     {
-        $tags = $this->getDoctrine()
+        return [
+            'tags' => $this->getAllTags(),
+            'tag' => $tag,
+            'folder' => $folder
+        ];
+    }
+
+    /**
+     * @return Tag[]|array
+     */
+    private function getAllTags()
+    {
+        return $this->getDoctrine()
             ->getRepository(Tag::class)
             ->findAll();
-
-        return [
-            'tags' => $tags
-        ];
     }
 }

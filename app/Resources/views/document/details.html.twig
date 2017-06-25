@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Document "{{ document.name }}"</h1>
-    <br>
+    <h1 class="page-header">Document "{{ document.name }}"</h1>
     <div class="row">
         <div class="col-xs-8">
             <pre>{{ document.content }}</pre>

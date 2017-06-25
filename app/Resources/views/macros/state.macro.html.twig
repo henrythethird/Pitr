@@ -1,16 +1,28 @@
 {% macro show(document) %}
-    <form class="pull-right" method="post" action="{{ path("document_toggle_pin", {id: document.id}) }}">
-        <button class="btn btn-default" onclick="event.stopPropagation()">
+    <div class="dropdown pull-right hoverHide" onclick="event.stopPropagation(); $(this).find('.dropdown-menu').toggle()">
+        <button class="buttonTransparent dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <i class="glyphicon glyphicon-option-vertical"></i>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
+            <li class="dropdown-header">Add Tag</li>
+            <li><a href="#">Another action</a></li>
+        </ul>
+    </div>
+
+    <form class="{% if workflow_can(document, 'pin') %}hoverHide{% endif %} pull-right" method="post" action="{{ path("document_toggle_pin", {id: document.id}) }}">
+        <button class="buttonTransparent" onclick="event.stopPropagation()">
             <i class="document_state document_state_{% if workflow_can(document, 'pin') %}pin{% else %}unpin{% endif %} glyphicon glyphicon-pushpin"></i>
         </button>
     </form>
-    <form class="pull-right" method="post" action="{{ path("document_toggle_done", {id: document.id}) }}">
-        <button class="btn btn-default" onclick="event.stopPropagation()">
+
+    <form class="hoverHide pull-right" method="post" action="{{ path("document_toggle_done", {id: document.id}) }}">
+        <button class="buttonTransparent" onclick="event.stopPropagation()">
             <i class="document_done document_done_{% if workflow_can(document, 'finish') %}finish{% else %}reset{% endif %} glyphicon glyphicon-ok"></i>
         </button>
     </form>
-    <form class="pull-right" method="post" action="{{ path("document_remove", {id: document.id}) }}">
-        <button class="btn btn-default" onclick="event.stopPropagation()">
+
+    <form class="hoverHide pull-right" method="post" action="{{ path("document_remove", {id: document.id}) }}">
+        <button class="buttonTransparent" onclick="event.stopPropagation()">
             <i class="glyphicon glyphicon-trash"></i>
         </button>
     </form>

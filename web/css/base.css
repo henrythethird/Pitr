@@ -9,3 +9,67 @@
 .document_done_reset {
     color: #4cae4c;
 }
+
+table#mainTable td {
+    vertical-align: middle;
+}
+
+input.bulkCheckbox {
+    margin: 0 10px;
+    visibility: hidden;
+}
+
+input.bulkCheckbox:checked {
+    visibility: visible;
+}
+
+tr:hover input.bulkCheckbox {
+    visibility: visible;
+}
+
+.buttonTransparent {
+    border: none;
+    background: transparent;
+    border-radius: 15px;
+}
+
+.buttonTransparent:hover {
+    color: #000;
+}
+
+.buttonTransparent i {
+    padding: 4px 1px;
+    font-size: 12pt;
+}
+
+tr.unread {
+    font-weight: bold;
+}
+
+table#mainTable .hoverHide {
+    visibility: hidden;
+}
+
+table#mainTable tr:hover .hoverHide {
+    visibility: visible;
+}
+
+.buttonTransparent:active {
+    background-color: #ccc;
+}
+
+.buttonTransparent:focus {
+    outline: none;
+}
+
+#addDocumentModalButton {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    border-radius: 100%;
+    padding: 11px 14px;
+}
+
+#addDocumentModalButton:focus {
+    outline: none;
+}
